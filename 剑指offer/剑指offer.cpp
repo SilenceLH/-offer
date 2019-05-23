@@ -4,7 +4,25 @@
 #include <iostream>
 #include "string"
 #include "vector"
+#include "stack"
 using namespace std;
+
+
+struct ListNode
+{
+	int val;
+	struct ListNode* next;
+	ListNode(int x) :
+		val(x), next(NULL){
+	}
+};
+struct TreeNode
+{
+	int val;
+	TreeNode* left;
+	TreeNode* right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
 
 class Solution {
 public:
@@ -59,8 +77,74 @@ public:
 	*/
 	/************************************************************************/
 	void replaceSpace(char* str, int length) {
+		if (str == nullptr || length == 0)
+			return;
+		int strlength = 0;
+		int blacklength = 0;
+		for (int i = 0; str[i] != '\0'; i++)
+		{
+			strlength++;
+			if (str[i] == ' ')
+				blacklength++;
+		}
+		int newlength = strlength + blacklength * 2;
+		while (blacklength >= 0 && newlength > strlength)
+		{
+			if (str[strlength] == ' ')
+			{
+				str[newlength--] = '0';
+				str[newlength--] = '2';
+				str[newlength--] = '%';
+			}
+			else
+			{
+				str[newlength--] = str[strlength];
+			}
+			strlength--;
+		}
+	}
+	/************************************************************************/
+	/*                      3、从尾到头打印链表
+	输入一个链表，按链表值从尾到头的顺序返回一个ArrayList。   
+	*/
+	/************************************************************************/
+	vector<int> printListFromTailToHead(ListNode* head) {
+		vector<int> res;
+		stack<int> s;
+		ListNode* p = head;
+		if (head == nullptr)
+		{
+			return res;
+		}
+		while (p != NULL)
+		{
+			s.push(p->val);
+			p = p->next;
+		}
+		while (!s.empty()) 
+		{
+			res.push_back(s.top());
+			s.pop();
+		}
+		return res;
+	}
+	/************************************************************************/
+	/*										4、重建二叉树    
+	输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。
+	假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
+	例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，
+	则重建二叉树并返回。
+	*/
+	/************************************************************************/
+	TreeNode* reConstructBinaryTree(vector<int> pre, vector<int> vin) {
 
 	}
+
+
+
+
+
+
 };
 
 
