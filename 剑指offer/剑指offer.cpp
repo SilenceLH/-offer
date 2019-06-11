@@ -137,11 +137,84 @@ public:
 	*/
 	/************************************************************************/
 	TreeNode* reConstructBinaryTree(vector<int> pre, vector<int> vin) {
-
+		int len = pre.size();
+		if (len == 0)
+		{
+			return NULL;
+		}
+		TreeNode* head = new TreeNode(pre[0]);
+		vector<int> left_pre, right_pre, left_vin, right_vin;
+		int gen = 0;
+		for (int i = 0; i < len; i++)
+		{
+			if (vin[i] == pre[0])
+			{
+				gen = i;
+				break;
+			}
+		}
+		for (int i = 0; i < gen; i++)
+		{
+			left_vin.push_back(vin[i]);
+			left_pre.push_back(pre[i + 1]); 
+		}
+		for (int i = gen + 1; i < len; i++)
+		{
+			right_vin.push_back(vin[i]);
+			right_pre.push_back(pre[i]);
+		}
+		head->left = reConstructBinaryTree(left_pre, left_vin);
+		head->right = reConstructBinaryTree(right_pre, right_vin);
+		return head;
 	}
-
-
-
+	/************************************************************************/
+	/*                          5、用两个栈实现队列
+	用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。
+	*/
+	/************************************************************************/
+		void push(int node) {
+			stack1.push(node);
+		}
+		int pop() {
+			if (stack2.empty())
+			{
+				while (!stack1.empty())
+				{
+					stack2.push(stack1.top());
+					stack1.pop();
+				}
+			}
+			int res = stack2.top();
+			stack2.pop();
+			return res;
+		}
+private:
+	stack<int> stack1;
+	stack<int> stack2;
+	/************************************************************************/
+	/*                           6、旋转数组的最小数字
+	把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 
+	输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。 
+	例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 
+	NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。
+	*/
+	/************************************************************************/
+	int minNumberInRotateArray(vector<int> rotateArray) {
+		int len = rotateArray.size();
+		if (len == 0)
+		{
+			return 0;
+		}
+		int vin = rotateArray[0];
+		for (int i = 1; i < len; i++)
+		{
+			if (rotateArray[i] < vin)
+			{
+				vin = rotateArray[i];
+			}
+		}
+		return vin;
+	}
 
 
 
