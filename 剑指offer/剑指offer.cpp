@@ -5,6 +5,7 @@
 #include "string"
 #include "vector"
 #include "stack"
+#include "algorithm"
 using namespace std;
 
 
@@ -215,17 +216,87 @@ private:
 		}
 		return vin;
 	}
-
-
-
+/************************************************************************/
+/*                            快速排序      
+*/
+/************************************************************************/
+	//有问题 -》867
+	int Partition(int data[], int start, int end)
+	{
+		if (data == NULL || start < 0 )
+		{
+			return 0;
+		}
+		int left = start + 1;
+		int right = end;
+		int index = data[start];
+		while (left < right)
+		{
+			while (data[left] < index)
+			{
+				left++;
+			}
+			while (data[right] > index)
+			{
+				right--;
+			}
+			if (left > right)
+			{
+				swap(data[left], data[right]);
+			}
+			else
+				left++;
+		}
+		swap(data[right], data[start]);
+		return right;
+	}
+	void quit_sort(int data[], int start, int end)
+	{
+		if (end < start)
+		{
+			return;
+		}
+		int j = Partition(data, start, end);
+		Partition(data, start, j - 1);
+		Partition(data, j + 1, end);
+	}
+	//数据结构上的思想
+	void quckly_sort(int data[], int start, int end)
+	{
+		int left = start;
+		int right = end;
+		int temp = data[start];
+		while (left < right)
+		{
+			while (left < right && data[right] > temp)
+				right--;
+			if (left < right)
+			{
+				data[left] = data[right];
+				left++;
+			}
+			while (left < right && data[left] < temp)
+			{
+				left++;
+			}
+			if (left < right)
+			{
+				data[right] = data[left];
+				right--;
+			}
+		}
+		data[left] = temp;
+		quckly_sort(data, start, left - 1);
+		quckly_sort(data, left + 1, end);
+	}
 };
-
-
 
 int main()
 {
+	vector<int> res;
+	int data[3] = { 8,6,7 };
     cout << "Hello World!\n"; 
-	cout << "asdfa";
+ 	cout << "asdfa";
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
